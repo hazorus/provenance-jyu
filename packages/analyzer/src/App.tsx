@@ -31,6 +31,11 @@
  * which is itself wrapped in RequireAuth + RequireStaff (see the /local route
  * definition below).
  * <QueryClientProvider> is set up in main.tsx and wraps the entire app.
+ *
+ * Local-only build (`VITE_LOCAL_ONLY=true`, see lib/local-only.ts): the same
+ * /local subtree and legacy redirects, but NOT wrapped in RequireAuth +
+ * RequireStaff, and every other path redirects to /local/load. No server route
+ * exists in that build, so nothing in it calls the API.
  */
 
 import { lazy, Suspense } from 'react';
@@ -48,6 +53,7 @@ import {
   RequireLocalBundle,
   RequireLocalMultiBundles,
 } from './views/local/LocalShell.js';
+import { isLocalOnlyBuild } from './lib/local-only.js';
 
 // ---------------------------------------------------------------------------
 // Lazy chunks: cohort/admin routes (server-backed, require auth)
@@ -171,10 +177,97 @@ function LegacyReplayRedirect() {
 }
 
 // ---------------------------------------------------------------------------
+// /local subtree — shared by the default and the local-only route trees
+// ---------------------------------------------------------------------------
+
+/** Child routes of /local (PRD §15). The gate, if any, is the caller's. */
+function localChildRoutes() {
+  return (
+    <>
+      <Route path="load" element={<LoadView />} />
+      <Route
+        path="overview"
+        element={
+          <RequireLocalBundle>
+            <Layout>
+              <OverviewView />
+            </Layout>
+          </RequireLocalBundle>
+        }
+      />
+      <Route
+        path="timeline"
+        element={
+          <RequireLocalBundle>
+            <Layout>
+              <TimelineView />
+            </Layout>
+          </RequireLocalBundle>
+        }
+      />
+      <Route
+        path="compare"
+        element={
+          <RequireLocalMultiBundles>
+            <Layout>
+              <CompareView />
+            </Layout>
+          </RequireLocalMultiBundles>
+        }
+      />
+      <Route
+        path="replay/:sessionId"
+        element={
+          <RequireLocalBundle>
+            <ReplayView />
+          </RequireLocalBundle>
+        }
+      />
+      {/* /local with no sub-path → /local/load */}
+      <Route index element={<Navigate to="load" replace />} />
+    </>
+  );
+}
+
+/** Old v2 paths redirect to their /local equivalents (bookmark preservation). */
+function legacyLocalRedirects() {
+  return (
+    <>
+      <Route path="/load" element={<Navigate to="/local/load" replace />} />
+      <Route path="/overview" element={<Navigate to="/local/overview" replace />} />
+      <Route path="/timeline" element={<Navigate to="/local/timeline" replace />} />
+      <Route path="/compare" element={<Navigate to="/local/compare" replace />} />
+      <Route path="/replay/:sessionId" element={<LegacyReplayRedirect />} />
+    </>
+  );
+}
+
+/**
+ * Route tree of a `VITE_LOCAL_ONLY=true` build: /local without the staff gate,
+ * and nothing else — every other path lands on /local/load.
+ */
+function LocalOnlyRoutes() {
+  return (
+    <Suspense fallback={<PageFallback />}>
+      <Routes>
+        <Route path="/local" element={<LocalShell />}>
+          {localChildRoutes()}
+        </Route>
+        {legacyLocalRedirects()}
+        <Route path="*" element={<Navigate to="/local/load" replace />} />
+      </Routes>
+    </Suspense>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // App
 // ---------------------------------------------------------------------------
 
 export function App() {
+  if (isLocalOnlyBuild()) {
+    return <LocalOnlyRoutes />;
+  }
   return (
     <Suspense fallback={<PageFallback />}>
       <Routes>
@@ -428,56 +521,11 @@ export function App() {
             </RequireAuth>
           }
         >
-          <Route path="load" element={<LoadView />} />
-          <Route
-            path="overview"
-            element={
-              <RequireLocalBundle>
-                <Layout>
-                  <OverviewView />
-                </Layout>
-              </RequireLocalBundle>
-            }
-          />
-          <Route
-            path="timeline"
-            element={
-              <RequireLocalBundle>
-                <Layout>
-                  <TimelineView />
-                </Layout>
-              </RequireLocalBundle>
-            }
-          />
-          <Route
-            path="compare"
-            element={
-              <RequireLocalMultiBundles>
-                <Layout>
-                  <CompareView />
-                </Layout>
-              </RequireLocalMultiBundles>
-            }
-          />
-          <Route
-            path="replay/:sessionId"
-            element={
-              <RequireLocalBundle>
-                <ReplayView />
-              </RequireLocalBundle>
-            }
-          />
-          {/* /local with no sub-path → /local/load */}
-          <Route index element={<Navigate to="load" replace />} />
+          {localChildRoutes()}
         </Route>
 
         {/* ── Legacy redirects (bookmark preservation) ──────────────────── */}
-        {/* Matches old v2 paths and redirects to their /local equivalents.  */}
-        <Route path="/load" element={<Navigate to="/local/load" replace />} />
-        <Route path="/overview" element={<Navigate to="/local/overview" replace />} />
-        <Route path="/timeline" element={<Navigate to="/local/timeline" replace />} />
-        <Route path="/compare" element={<Navigate to="/local/compare" replace />} />
-        <Route path="/replay/:sessionId" element={<LegacyReplayRedirect />} />
+        {legacyLocalRedirects()}
 
         {/* ── student enrollment (program spec §5a) ────────────────────────── */}
         {/* RequireAuth ONLY — deliberately no RequireStaff and no AppShell.    */}

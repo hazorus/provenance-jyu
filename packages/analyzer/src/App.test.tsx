@@ -13,7 +13,7 @@
  * at /home which calls useMe().
  */
 
-import { describe, it, expect } from 'vitest';
+import { describe, it, expect, afterEach, beforeEach, vi } from 'vitest';
 import { render, screen, fireEvent, waitFor, act } from '@testing-library/react';
 import { MemoryRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
@@ -23,6 +23,13 @@ import { App } from './App.js';
 import { buildTestBundle } from '@provenance/analysis-core/test-support/build-test-bundle.js';
 import { mswServer } from './test-setup.js';
 import { meNoSemestersHandler, meUnauthorizedHandler } from './test/msw-handlers.js';
+
+// The local-only switch, mocked at its module seam: `vi.stubEnv` does not
+// reach lib/local-only.ts's own `import.meta.env` under Vite (the same reason
+// BundleContext.contributors.test.tsx mocks lib/root-key.ts). Off by default,
+// so every test outside the local-only describe exercises the gated build.
+const localOnly = vi.hoisted(() => ({ on: false }));
+vi.mock('./lib/local-only.js', () => ({ isLocalOnlyBuild: () => localOnly.on }));
 
 // Wire SHA-512 override.
 ed.hashes.sha512 = sha512;
@@ -180,5 +187,50 @@ describe('App routing', () => {
       },
       { timeout: 5000 },
     );
+  });
+});
+
+describe('App routing — local-only build (VITE_LOCAL_ONLY=true)', () => {
+  beforeEach(() => {
+    localOnly.on = true;
+  });
+  afterEach(() => {
+    localOnly.on = false;
+  });
+
+  it('renders /local/load for an anonymous visitor, with no sign-in step', async () => {
+    mswServer.use(meUnauthorizedHandler());
+    renderApp('/local/load');
+    await waitFor(() => {
+      expect(screen.getByTestId('drop-zone')).toBeInTheDocument();
+    });
+    expect(screen.queryByRole('button', { name: /sign in with google/i })).not.toBeInTheDocument();
+  });
+
+  it.each(['/', '/home', '/login', '/s/cs61a/fa26'])(
+    'redirects %s to /local/load',
+    async (path) => {
+      renderApp(path);
+      await waitFor(() => {
+        expect(screen.getByTestId('drop-zone')).toBeInTheDocument();
+      });
+    },
+  );
+
+  it('makes no API request while loading /local/load', async () => {
+    const requested: string[] = [];
+    const onRequest = ({ request }: { request: Request }) => {
+      requested.push(request.url);
+    };
+    mswServer.events.on('request:start', onRequest);
+    try {
+      renderApp('/local/load');
+      await waitFor(() => {
+        expect(screen.getByTestId('drop-zone')).toBeInTheDocument();
+      });
+    } finally {
+      mswServer.events.removeListener('request:start', onRequest);
+    }
+    expect(requested).toEqual([]);
   });
 });

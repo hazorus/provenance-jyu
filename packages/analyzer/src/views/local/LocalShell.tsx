@@ -76,7 +76,8 @@ function LocalModeBanner() {
  * Wraps all /local/* routes in <BundleProvider> so the existing v2 route
  * elements (LoadView, OverviewView, etc.) have access to BundleContext.
  * Auth is enforced one level up in App.tsx (RequireAuth + RequireStaff wrap
- * this subtree).
+ * this subtree), except in a VITE_LOCAL_ONLY build, which has no gate and no
+ * server (lib/local-only.ts).
  */
 export function LocalShell() {
   return (

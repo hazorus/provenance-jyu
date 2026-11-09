@@ -35,6 +35,25 @@ Jaa opiskelijoille juuri se `.vsix`, josta tiiviste laskettiin. Vanhan
 tiivisteen voi poistaa (`node scripts/update-extension-hash-allowlist.mjs
 --remove <hex>`), kun kukaan ei enää käytä vanhaa pakettia.
 
+## Analyzer omalla koneella ilman kirjautumista
+
+JYU-haarassa Analyzerin voi rakentaa versioksi, joka sisältää vain selaimessa
+toimivan `/local`-näkymän ilman kirjautumista ja palvelinta. Lokit eivät lähde
+koneelta. Rakenna ja käynnistä repon juuressa:
+
+```bash
+VITE_LOCAL_ONLY=true VITE_ROOT_PUBLIC_KEY_HEX=1432603d08c93282725d899dd459cb5c9b6d723fff2362945b2eb11fef921f27 npm run build --workspace=packages/analyzer
+```
+
+```bash
+npm run preview --workspace=packages/analyzer
+```
+
+Avaa selaimessa `http://localhost:4173/` ja pudota opiskelijan repo-zip
+sivulle. `VITE_ROOT_PUBLIC_KEY_HEX` on juuriavaimen julkinen osa; ilman sitä
+Manifest 2.0 -allekirjoitusketjun tarkistus ohitetaan. Älä julkaise tätä
+versiota verkkoon: se ei tarkista, kuka sitä käyttää.
+
 ## Selvitetyt avoimet kysymykset
 
 ### `scope: "repo"` vai `"directory"`?
@@ -88,9 +107,7 @@ Muut tiedostot jätetään pois.
   `filename_convention`-säännöllä, jossa on `(?<sid>…)`-ryhmä. Nimeä zipit
   esim. `<opiskelijatunnus>.zip` ja käytä sääntöä `^(?<sid>[^/.]+)`.
   Tunnistamattomat päätyvät "unmatched"-listaan.
-- `/local`-näkymä hyväksyy myös repo-zipit, mutta vaatii palvelimen ja
-  henkilökunnan Google-kirjautumisen (`RequireAuth` + `RequireStaff`).
-  Kirjautuminen hyväksyy vain `AUTH_ALLOWED_HOSTED_DOMAINS`-asetuksen
-  Google Workspace -domainit.
+- `/local`-näkymä hyväksyy myös repo-zipit. Palvelinversiossa se vaatii
+  henkilökunnan Google-kirjautumisen, local-only-versiossa ei (ks. yllä).
 - Palvelimelle on määritettävä juuriavaimen julkinen osa, muuten Manifest
   2.0 -tarkistukset eivät toimi täysin.
