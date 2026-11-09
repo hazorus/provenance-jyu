@@ -12,16 +12,16 @@ Työ jakautuu kahteen osaan:
 
 Avainketju on kolmiportainen (Manifest 2.0): laajennukseen on upotettu juuriavain, juuriavain allekirjoittaa kurssisertifikaatin, ja kurssiavain allekirjoittaa manifestit. Sertifikaatti kulkee jokaisen manifestin mukana. Siksi yksi `.vsix`-paketti kelpaa kaikille kursseillesi, eikä sitä tarvitse kääntää uudelleen uutta kurssia varten.
 
-Komennot ajetaan kloonatun [Provenance-repon](https://github.com/ProvenanceTools/provenance) juuressa. Tarvitset Node.js:n version 22 tai uudemman ja npm:n version 10 tai uudemman. Komennot on kirjoitettu bash-muodossa, eli Windowsissa ympäristömuuttujat asetetaan eri tavalla tai komennot ajetaan WSL:ssä.
+Komennot ajetaan [JYU:n Provenance-repon](https://github.com/hazorus/provenance-jyu) `jyu`-haaran juuressa. Haara sisältää Berkeleyn version ja JYU:n muutokset: oman laajennustunnisteen, tunnistekorjauksen ja tiivistelistan. Tarvitset Node.js:n version 22 tai uudemman ja npm:n version 10 tai uudemman. Komennot on kirjoitettu bash-muodossa, eli Windowsissa ympäristömuuttujat asetetaan eri tavalla tai komennot ajetaan WSL:ssä.
 
 ## Avaimet, sertifikaatti ja laajennus
 
 ### 1. Hae ja käännä repo
 
 ```bash
-git clone https://github.com/ProvenanceTools/provenance.git
-cd provenance
-npm install
+git clone -b jyu https://github.com/hazorus/provenance-jyu.git
+cd provenance-jyu
+npm ci
 npm run build
 ```
 
@@ -86,13 +86,21 @@ Jaa `.vsix`-tiedosto opiskelijoille. Uutta pakettia tarvitaan vain, kun päivit�
 
 Tiiviste lasketaan laajennuksen `dist/`-hakemistosta. Jokainen recorderin koodimuutos vaatii siksi uuden paketin ja uuden tiivisteen: aja `npm run update-hashes` uudelleen ja jaa opiskelijoille juuri se `.vsix`, josta tiiviste laskettiin.
 
-### 6. Tallenna muutokset omaan haaraan
+### 6. Tallenna muutokset jyu-haaraan
 
-Muokattu `package.json` ja päivitetty tiivistelista ovat vain työkopiossasi. Tee niistä commit omaan haaraan, jotta ne säilyvät, kun haet uusia versioita Berkeleyn reposta:
+Tallenna omat muutoksesi, esimerkiksi uusi tiiviste `update-hashes`-ajon jälkeen, `jyu`-haaraan ja pushaa ne. Näin kaikki kurssin opettajat käyttävät samaa versiota. `.vsix`-tiedosto ei tallennu repoon, joten jaa se opiskelijoille erikseen.
 
 ```bash
-git checkout -b jyu
-git commit -am "JYU: oma laajennustunniste ja tiivistelista"
+git add packages/analysis-core/src/heuristics/config/known-good-extension-hashes.json
+git commit -m "JYU: päivitä tiivistelista"
+git push
+```
+
+Berkeleyn uudemman version saat yhdistämällä sen `jyu`-haaraan. Rakenna paketti ja tiiviste sen jälkeen uudelleen (kohta 5).
+
+```bash
+git fetch https://github.com/ProvenanceTools/provenance.git main
+git merge FETCH_HEAD
 ```
 
 ## Jokaiselle tehtävälle
