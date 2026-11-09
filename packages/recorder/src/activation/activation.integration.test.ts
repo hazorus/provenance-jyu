@@ -665,6 +665,39 @@ describe('activate() command registration', () => {
     expect(String(warnSpy.mock.calls[0]?.[0])).toContain('.provenance-manifest');
   });
 
+  it('identifies itself from context.extension, whatever publisher/name it was packaged under', async () => {
+    // A fork that re-packages the recorder under its own publisher/name must
+    // still find itself. A hardcoded getExtension('itsgeagle.provenance-recorder')
+    // returns undefined there, and the fallback stamped every session.start with
+    // version 0.0.0 and the upstream extension id.
+    const ownExtension = {
+      ...makeExtension(),
+      id: 'some-university.provenance-recorder-fork',
+      packageJSON: {
+        version: '2.0.2',
+        publisher: 'some-university',
+        name: 'provenance-recorder-fork',
+      },
+    };
+    const getExtensionSpy = vi.spyOn(vscode.extensions, 'getExtension');
+    let seen: import('vscode').Extension<unknown> | undefined;
+
+    await activate(
+      { ...makeContext(), extension: ownExtension } as import('vscode').ExtensionContext,
+      {
+        discoverManifests: () =>
+          Promise.resolve({ found: fakeFound(['/fake/ws/lab00']), skipped: [] }),
+        startSession: (deps) => {
+          seen = deps.extension;
+          return Promise.resolve(fakeSession(deps.assignmentRoot));
+        },
+      },
+    );
+
+    expect(seen).toBe(ownExtension);
+    expect(getExtensionSpy).not.toHaveBeenCalled();
+  });
+
   it('registers the seal command before any session is started', async () => {
     // Ordering assertion, not just an outcome assertion: the command must exist
     // by the time the first startSession runs, so a hang inside startSession

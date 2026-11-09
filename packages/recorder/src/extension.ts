@@ -415,10 +415,16 @@ export async function activate(
     return;
   }
 
-  const ownExtension = vscode.extensions.getExtension('itsgeagle.provenance-recorder');
+  // context.extension (VS Code >= 1.55) is THIS extension under whatever
+  // publisher/name it was packaged with. A hardcoded getExtension(id) lookup
+  // misses as soon as a course re-packages the recorder under its own publisher
+  // (so the Marketplace build cannot auto-update over it), and the fallback
+  // below would then stamp every session.start with version 0.0.0 and the
+  // upstream id. It can only be absent outside a real extension host.
+  const ownExtension: vscode.Extension<unknown> | undefined = context.extension;
   if (ownExtension === undefined) {
     console.error(
-      '[provenance] WARNING: could not locate own extension via getExtension; using context fallback.',
+      '[provenance] WARNING: context.extension is unavailable; using context fallback.',
     );
   }
   const extension: vscode.Extension<unknown> =

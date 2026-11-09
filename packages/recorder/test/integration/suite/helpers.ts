@@ -31,7 +31,22 @@ export const SCRATCH_FILE = 'scratch.py';
 export const POLL_INTERVAL_MS = 500;
 export const ACTIVATION_TIMEOUT_MS = 15_000;
 
-export const EXTENSION_ID = 'itsgeagle.provenance-recorder';
+/**
+ * The recorder under test, found by the command only it contributes rather
+ * than by a hardcoded `<publisher>.<name>`: a course that re-packages the
+ * recorder under its own publisher (so the Marketplace build cannot
+ * auto-update over it) must be able to run this suite unchanged.
+ */
+export function findRecorderExtension(): vscode.Extension<unknown> | undefined {
+  return vscode.extensions.all.find((ext) => {
+    const contributes = (ext.packageJSON as { contributes?: { commands?: { command?: string }[] } })
+      .contributes;
+    return (
+      contributes?.commands?.some((c) => c.command === 'provenance.prepareSubmissionBundle') ===
+      true
+    );
+  });
+}
 
 // ---------------------------------------------------------------------------
 // Waiting
@@ -66,7 +81,7 @@ export function delay(ms: number): Promise<void> {
 /** Wait for the recorder extension to report itself active. */
 export function waitForActivation(): Promise<void> {
   return waitUntil(
-    () => vscode.extensions.getExtension(EXTENSION_ID)?.isActive === true,
+    () => findRecorderExtension()?.isActive === true,
     ACTIVATION_TIMEOUT_MS,
     'extension to become active',
   );
