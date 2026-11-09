@@ -13,15 +13,19 @@ Provenance on VS Coden laajennus, joka tallentaa tehtäväkansiossa tekemäsi mu
 
 Oman aiemmin kirjoittamasi koodin kopioiminen ja liittäminen on täysin normaalia eikä aiheuta ongelmia.
 
+Kurssilla käytetään Provenancen JYU-versiota (tunniste `jyu-tjlahton.provenance-recorder-jyu-it`). Se perustuu UC Berkeleyn avoimeen lähdekoodiin, ja sen lähdekoodi on luettavissa [GitHubissa](https://github.com/hazorus/provenance-jyu/tree/jyu).
+
 ## Asennus
 
-Asennat laajennuksen opettajan jakamasta `.vsix`-tiedostosta. **Älä asenna Provenance Recorderia VS Coden Marketplacesta.** Marketplacen versio on tehty Berkeleyn kursseille, eikä se tallenna tämän kurssin tehtäviä.
+Asennat laajennuksen JYU-version opettajan jakamasta `.vsix`-tiedostosta. **Älä asenna Provenance Recorderia VS Coden Marketplacesta.** Marketplacen versio on tehty Berkeleyn kursseille, eikä se tallenna tämän kurssin tehtäviä.
 
 1. Asenna tai päivitä Visual Studio Code. Tarvitset version 1.100 tai uudemman. Version näet valikosta **Help → About** (Windows, Linux) tai **Code → About Visual Studio Code** (Mac).
 2. Lataa opettajan jakama `.vsix`-tiedosto omalle koneellesi.
 3. Jos olet aiemmin asentanut Provenance Recorderin Marketplacesta, poista se ensin: laajennusnäkymä (**Ctrl+Shift+X**, Macissa **Cmd+Shift+X**) → Provenance Recorder → **Uninstall**.
 4. Avaa komentopaletti (**Ctrl+Shift+P**, Macissa **Shift+Cmd+P**), kirjoita `Install from VSIX` ja valitse **Extensions: Install from VSIX…**. Valitse lataamasi tiedosto.
 5. Käynnistä VS Code uudelleen.
+
+Tarkista asennus laajennusnäkymästä: Provenance Recorderin julkaisijaksi pitää näkyä `jyu-tjlahton`.
 
 Jos opettaja julkaisee laajennuksesta uuden version, asenna se samalla tavalla. Uusi versio korvaa vanhan.
 
@@ -64,7 +68,7 @@ Voit tehdä tehtävää useammalla koneella, kun siirrät työn gitin kautta. As
 Käy läpi nämä kohdat järjestyksessä:
 
 1. **VS Code on ajan tasalla.** Päivitä VS Code ja käynnistä se uudelleen. Avaa sitten tehtäväkansio uudelleen.
-2. **Provenance on ajan tasalla.** Tarkista, että olet asentanut opettajan jakaman uusimman \`.vsix\`-tiedoston etkä Marketplacen versiota.
+2. **Provenance on ajan tasalla.** Tarkista, että olet asentanut opettajan jakaman uusimman \`.vsix\`-tiedoston etkä Marketplacen versiota. JYU-version julkaisija laajennusnäkymässä on jyu-tjlahton.
 3. **Oikea kansio on auki.** Yleinen virhe on purkaa zip niin, että syntyy sisäkkäiset kansiot (esimerkiksi `tehtava1/tehtava1`). Avaa sisempi kansio, jossa tehtävän tiedostot ovat.
 4. **Kansioon luotetaan.** Jos ikkunan yläreunassa on harmaa palkki, jossa mainitaan Restricted Mode, valitse palkista luottamus kansioon.
 5. **Kansioon voi kirjoittaa.** Macissa Lataukset-kansioon puretut tiedostot voivat olla vain luku -tilassa. Siirrä tehtäväkansio esimerkiksi Työpöydälle tai omaan kurssikansioon.
@@ -87,6 +91,7 @@ Jos tallennus ei vieläkään käynnisty, ota yhteyttä opettajaan ennen kuin te
 
 ## Lähteet
 
+- [Provenance, JYU-versio, GitHub](https://github.com/hazorus/provenance-jyu/tree/jyu)
 - [Provenance, CS 61A, UC Berkeley](https://cs61a.org/fa26/articles/provenance/)
 - [Lab 0: Getting Started, CS 61A, UC Berkeley](https://cs61a.org/fa26/labs/lab00/)
 - [Project 1, CS 61C, UC Berkeley](https://cs61c.org/fa26/projects/proj1/)
