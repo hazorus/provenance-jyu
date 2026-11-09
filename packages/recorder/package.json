@@ -1,11 +1,11 @@
 {
-  "name": "provenance-recorder",
+  "name": "provenance-recorder-jyu-it",
   "displayName": "Provenance Recorder",
   "description": "Academic integrity telemetry for course assignments.",
   "version": "2.0.2",
   "icon": "icon.png",
   "private": true,
-  "publisher": "itsgeagle",
+  "publisher": "jyu-tjlahton",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ProvenanceTools/provenance.git",

@@ -27,5 +27,19 @@
     "typescript-eslint": "^8.59.4",
     "vitest": "^4.1.6"
   },
-  "license": "Apache-2.0"
+  "license": "Apache-2.0",
+  "allowScripts": {
+    "esbuild@0.18.20": true,
+    "esbuild@0.25.12": true,
+    "esbuild@0.28.0": true,
+    "esbuild@0.21.5": true,
+    "@vscode/vsce-sign@2.0.9": true,
+    "keytar@7.9.0": true,
+    "argon2@0.31.2": true,
+    "cpu-features@0.0.10": true,
+    "ssh2@1.17.0": true,
+    "core-js@3.49.0": true,
+    "msw@2.14.6": true,
+    "protobufjs@7.6.0": true
+  }
 }
