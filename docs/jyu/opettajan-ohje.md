@@ -82,6 +82,8 @@ Jaa `.vsix`-tiedosto opiskelijoille. Uutta pakettia tarvitaan vain, kun päivit�
 
 Tiiviste lasketaan laajennuksen `dist/`-hakemistosta. Jokainen recorderin koodimuutos vaatii siksi uuden paketin ja uuden tiivisteen: aja `npm run update-hashes` uudelleen ja jaa opiskelijoille juuri se `.vsix`, josta tiiviste laskettiin.
 
+Valmis paketti on ladattavissa: [provenance-recorder-jyu-it-2.0.3.vsix](https://github.com/hazorus/provenance-jyu/raw/vsix/provenance-recorder-jyu-it-2.0.3.vsix). Kaikki versiot tarkistussummineen ovat repon [`vsix`-haarassa](https://github.com/hazorus/provenance-jyu/tree/vsix). Kun rakennat uuden version, lisää se `vsix`-haaraan ja päivitä latauslinkki opiskelijan ohjeeseen.
+
 ### 6. Tallenna muutokset jyu-haaraan
 
 Tallenna omat muutoksesi, esimerkiksi uusi tiiviste `update-hashes`-ajon jälkeen, `jyu`-haaraan ja pushaa ne. Näin kaikki kurssin opettajat käyttävät samaa versiota. `.vsix`-tiedosto ei tallennu repoon, joten jaa se opiskelijoille erikseen.
