@@ -6,7 +6,7 @@ Provenance otetaan kurssilla käyttöön omalla avaimella ja omalla laajennuspak
 
 Työ jakautuu kahteen osaan:
 
-- **Kerran (tai kun juuriavain vaihtuu):** juuriavaimen luonti, laajennuksen tunnisteen vaihto ja oman `.vsix`-paketin kääntäminen.
+- **Kerran (tai kun juuriavain vaihtuu):** juuriavaimen luonti ja oman `.vsix`-paketin kääntäminen.
 - **Kerran kurssille ja lukukaudelle:** kurssiavaimen luonti ja sille juuriavaimella allekirjoitettu kurssisertifikaatti.
 - **Jokaiselle tehtävälle:** manifestin kirjoittaminen tehtäväpohjan juureen ja sen allekirjoittaminen kurssiavaimella.
 
@@ -61,13 +61,9 @@ npm run mint:course-cert -- \
 - Pidä voimassaoloaika lyhyenä, esimerkiksi yksi lukukausi. Laajennus ei saa tietoa avaimen mitätöinnistä, joten vuotanutta kurssiavainta voi käyttää koko voimassaoloajan.
 - Säilytä kurssiavaimen yksityinen osa repojen ulkopuolella. Sertifikaatti ei ole salainen, koska se kulkee jokaisen manifestin mukana.
 
-### 4. Vaihda laajennuksen tunniste (kerran)
+### 4. Laajennuksen tunniste (valmiina)
 
-Marketplacen versio on tunnisteeltaan `itsgeagle.provenance-recorder`. Jos oma pakettisi käyttää samaa tunnistetta, VS Coden automaattinen päivitys voi korvata sen Marketplacen versiolla, joka ei hyväksy kurssisi manifesteja.
-
-Vaihda tiedostosta `packages/recorder/package.json` kentät `publisher` ja `name`, esimerkiksi `"publisher": "jyu"` ja `"name": "provenance-recorder-kurssi"`. Voit samalla vaihtaa `displayName`-kentän, jotta opiskelijat tunnistavat laajennuksen.
-
-Aja nimen vaihdon jälkeen `npm install`, jotta myös `package-lock.json` päivittyy. Muuten `npm ci` epäonnistuu. Upstreamin recorder etsii itsensä kovakoodatulla tunnisteella `itsgeagle.provenance-recorder`, jolloin uudelleennimetty paketti kirjaa lokiin version `0.0.0` ja väärän tunnisteen. JYU-haarassa (`hazorus/provenance-jyu`, haara `jyu`) molemmat on korjattu.
+JYU-haarassa laajennuksen tunniste on jo `jyu-tjlahton.provenance-recorder-jyu-it`, joten Marketplacen versio (`itsgeagle.provenance-recorder`) ei korvaa sitä automaattipäivityksessä. Tunnistetta ei tarvitse vaihtaa.
 
 ### 5. Käännä oma VSIX-paketti (kerran)
 
