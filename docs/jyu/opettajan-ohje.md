@@ -146,10 +146,13 @@ Luo tehtäväpohjan juureen tiedosto `.provenance-manifest`:
 ```bash
 PROVENANCE_COURSE_KEYPAIR_PATH=~/kurssi-2026s.json \
 PROVENANCE_COURSE_CERT_PATH=~/ties4080-2026s.cert.json \
+PROVENANCE_ROOT_PUBLIC_KEY_HEX=1432603d08c93282725d899dd459cb5c9b6d723fff2362945b2eb11fef921f27 \
   npm run sign:manifest -- /polku/tehtava3-pohja/.provenance-manifest
 ```
 
 Työkalu allekirjoittaa manifestin kurssiavaimella, liittää siihen kurssisertifikaatin ja tarkistaa koko ketjun juuriavaimesta manifestiin ennen kuin kirjoittaa tiedoston. Jos tarkistus epäonnistuu, tiedostoa ei kirjoiteta. Jos allekirjoitat manifestin uudelleen, vanha allekirjoitus ja sertifikaatti poistetaan automaattisesti.
+
+`PROVENANCE_ROOT_PUBLIC_KEY_HEX` on juuriavaimen julkinen osa, jolla työkalu tarkistaa ketjun. Ilman sitä työkalu etsii kehitysavainta tiedostosta `.notes/dev-root-keypair.json` ja keskeytyy.
 
 ### 3. Kokeile ennen julkaisua
 
