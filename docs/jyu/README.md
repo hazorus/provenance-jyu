@@ -12,7 +12,14 @@ Tämä hakemisto kuvaa JYU:n käyttöönoton. Haara `jyu` eroaa upstreamista
 - Analyzerin hyväksyttyjen laajennustiivisteiden listassa on JYU:n VSIX
   (`packages/analysis-core/src/heuristics/config/known-good-extension-hashes.json`).
 
-Ohjeet:
+## Lataa laajennus
+
+[provenance-recorder-jyu-it-2.0.3.vsix](https://github.com/hazorus/provenance-jyu/raw/vsix/provenance-recorder-jyu-it-2.0.3.vsix)
+(SHA-256 `60160bbe196352f194b7f2006c8194b47f1e14b75a545dcea30dc152a11844d3`).
+Kaikki versiot tarkistussummineen ovat
+[`vsix`-haarassa](https://github.com/hazorus/provenance-jyu/tree/vsix).
+
+## Ohjeet
 
 - [Opiskelijan ohje](opiskelijan-ohje.md)
 - [Opettajan käyttöönotto-ohje](opettajan-ohje.md)
@@ -31,7 +38,9 @@ allowlistiin. Rakenna paketti ja tiiviste samalla kertaa:
 npm run update-hashes -- --root-keypair ~/root-keypair.json
 ```
 
-Jaa opiskelijoille juuri se `.vsix`, josta tiiviste laskettiin. Vanhan
+Jaa opiskelijoille juuri se `.vsix`, josta tiiviste laskettiin: lisää se
+`vsix`-haaraan ja päivitä latauslinkki tähän tiedostoon ja opiskelijan
+ohjeeseen. Vanhan
 tiivisteen voi poistaa (`node scripts/update-extension-hash-allowlist.mjs
 --remove <hex>`), kun kukaan ei enää käytä vanhaa pakettia.
 
