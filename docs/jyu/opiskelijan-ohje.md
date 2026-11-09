@@ -20,7 +20,7 @@ Kurssilla käytetään Provenancen JYU-versiota (tunniste `jyu-tjlahton.provenan
 Asennat laajennuksen JYU-version opettajan jakamasta `.vsix`-tiedostosta. **Älä asenna Provenance Recorderia VS Coden Marketplacesta.** Marketplacen versio on tehty Berkeleyn kursseille, eikä se tallenna tämän kurssin tehtäviä.
 
 1. Asenna tai päivitä Visual Studio Code. Tarvitset version 1.100 tai uudemman. Version näet valikosta **Help → About** (Windows, Linux) tai **Code → About Visual Studio Code** (Mac).
-2. Lataa opettajan jakama `.vsix`-tiedosto omalle koneellesi.
+2. Lataa laajennus omalle koneellesi: [provenance-recorder-jyu-it-2.0.3.vsix](https://github.com/hazorus/provenance-jyu/raw/vsix/provenance-recorder-jyu-it-2.0.3.vsix). Uudemmat versiot löytyvät [samasta paikasta](https://github.com/hazorus/provenance-jyu/tree/vsix).
 3. Jos olet aiemmin asentanut Provenance Recorderin Marketplacesta, poista se ensin: laajennusnäkymä (**Ctrl+Shift+X**, Macissa **Cmd+Shift+X**) → Provenance Recorder → **Uninstall**.
 4. Avaa komentopaletti (**Ctrl+Shift+P**, Macissa **Shift+Cmd+P**), kirjoita `Install from VSIX` ja valitse **Extensions: Install from VSIX…**. Valitse lataamasi tiedosto.
 5. Käynnistä VS Code uudelleen.
