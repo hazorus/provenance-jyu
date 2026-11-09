@@ -51,6 +51,14 @@ Loki palautuu tehtävän git-repossa koodisi mukana. Repon juuressa on kaksi Pro
 
 Jos teet tehtävän parin kanssa, kirjoittakaa kaikki koodi yhdellä koneella, jotta loki on yhtenäinen. Kirjoittajaa voi vaihtaa niin usein kuin haluatte.
 
+Voit tehdä tehtävää useammalla koneella, kun siirrät työn gitin kautta. Asenna sama `.vsix`-tiedosto kaikille koneille ja toimi näin:
+
+1. Sulje VS Code ensimmäisellä koneella.
+2. Tee commit ja push.
+3. Aja toisella koneella `git pull` ennen kuin avaat tehtäväkansion VS Codessa.
+
+Älä aja `git pull`-komentoa, kun tehtäväkansio on auki VS Codessa. Muuten omat muutoksesi näkyvät lokissa ulkoisina muutoksina.
+
 ## Jos tilarivillä ei lue "Provenance: recording"
 
 Käy läpi nämä kohdat järjestyksessä:

@@ -67,6 +67,8 @@ Marketplacen versio on tunnisteeltaan `itsgeagle.provenance-recorder`. Jos oma p
 
 Vaihda tiedostosta `packages/recorder/package.json` kentät `publisher` ja `name`, esimerkiksi `"publisher": "jyu"` ja `"name": "provenance-recorder-kurssi"`. Voit samalla vaihtaa `displayName`-kentän, jotta opiskelijat tunnistavat laajennuksen.
 
+Aja nimen vaihdon jälkeen `npm install`, jotta myös `package-lock.json` päivittyy. Muuten `npm ci` epäonnistuu. Upstreamin recorder etsii itsensä kovakoodatulla tunnisteella `itsgeagle.provenance-recorder`, jolloin uudelleennimetty paketti kirjaa lokiin version `0.0.0` ja väärän tunnisteen. JYU-haarassa (`hazorus/provenance-jyu`, haara `jyu`) molemmat on korjattu.
+
 ### 5. Käännä oma VSIX-paketti (kerran)
 
 ```bash
@@ -81,6 +83,8 @@ Komento tekee kaksi asiaa kerralla:
 Ilmoitus `PROVENANCE_LEGACY_COURSE_PUBLIC_KEY_HEX is not set` on odotettu: paketti hyväksyy vain Manifest 2.0 -manifestit, eli juuri ne, joita tämä ohje tuottaa.
 
 Jaa `.vsix`-tiedosto opiskelijoille. Uutta pakettia tarvitaan vain, kun päivität laajennuksen uudempaan versioon tai vaihdat juuriavaimen. Uusi kurssi ei vaadi uutta pakettia.
+
+Tiiviste lasketaan laajennuksen `dist/`-hakemistosta. Jokainen recorderin koodimuutos vaatii siksi uuden paketin ja uuden tiivisteen: aja `npm run update-hashes` uudelleen ja jaa opiskelijoille juuri se `.vsix`, josta tiiviste laskettiin.
 
 ### 6. Tallenna muutokset omaan haaraan
 
@@ -113,17 +117,17 @@ Luo tehtäväpohjan juureen tiedosto `.provenance-manifest`:
 }
 ```
 
-| Kenttä                       | Sisältö                                                                                                                                                                                                                                                   |
-| ---------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| `assignment_id`              | Tehtävän yksilöivä tunniste. Sen on oltava jokaisessa tehtävässä eri, koska se estää vanhan tallennuksen käyttämisen uudessa tehtävässä.                                                                                                                  |
-| `semester`                   | Lukukauden tunniste, esimerkiksi `2026s`. Vaihda se, kun käytät samaa tehtävää uudelleen.                                                                                                                                                                 |
-| `issued_at`                  | Julkaisuaika ISO 8601 -muodossa UTC-aikana.                                                                                                                                                                                                               |
-| `files_under_review`         | Tiedostot, joiden muutoksia VS Coden ohi laajennus valvoo. Opiskelijan itse luomat tiedostot tallentuvat lokiin silti, mutta niistä ei tunnisteta ulkoisia muutoksia.                                                                                     |
-| `course_id`                  | Sama tunniste kuin kurssisertifikaatissa. Jos ne eroavat, allekirjoitus epäonnistuu.                                                                                                                                                                      |
-| `collaboration`              | `solo` tai `group`.                                                                                                                                                                                                                                       |
-| `submission`                 | `git`, kun loki palautetaan repossa, tai `bundle`, kun opiskelija palauttaa laajennuksen tekemän zip-paketin.                                                                                                                                             |
-| `scope`                      | `directory` tai `repo`. README ei kerro tarkemmin eroa, joten kokeile ennen käyttöä, kumpi sopii tehtäviin, joissa opiskelija luo omia tiedostoja.                                                                                                        |
-| `policy.enrollment.required` | Aseta `false`, ellei käytössäsi ole Provenance-palvelinta. Oletusarvolla `true` laajennus pyytää opiskelijaa rekisteröitymään palvelimelle. Tallennus toimii samoin kummallakin arvolla, mutta ilman rekisteröintiä loki ei yksin todista, kuka sen teki. |
+| Kenttä                       | Sisältö                                                                                                                                                                                                                                                                                           |
+| ---------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `assignment_id`              | Tehtävän yksilöivä tunniste. Sen on oltava jokaisessa tehtävässä eri, koska se estää vanhan tallennuksen käyttämisen uudessa tehtävässä.                                                                                                                                                          |
+| `semester`                   | Lukukauden tunniste, esimerkiksi `2026s`. Vaihda se, kun käytät samaa tehtävää uudelleen.                                                                                                                                                                                                         |
+| `issued_at`                  | Julkaisuaika ISO 8601 -muodossa UTC-aikana.                                                                                                                                                                                                                                                       |
+| `files_under_review`         | Tiedostot, joiden muutoksia VS Coden ohi laajennus valvoo. Opiskelijan itse luomat tiedostot tallentuvat lokiin silti, mutta niistä ei tunnisteta ulkoisia muutoksia eikä niihin kohdisteta tiedostokohtaisia heuristiikkoja. Listaa siksi myös apumoduulit, jos ne kuuluvat arvioitavaan työhön. |
+| `course_id`                  | Sama tunniste kuin kurssisertifikaatissa. Jos ne eroavat, allekirjoitus epäonnistuu.                                                                                                                                                                                                              |
+| `collaboration`              | `solo` tai `group`.                                                                                                                                                                                                                                                                               |
+| `submission`                 | `git`, kun loki palautetaan repossa, tai `bundle`, kun opiskelija palauttaa laajennuksen tekemän zip-paketin.                                                                                                                                                                                     |
+| `scope`                      | `directory` tai `repo`. Käytä arvoa directory. Arvo tallentuu manifestiin, mutta recorder ja Analyzer eivät tällä hetkellä käytä sitä mihinkään.                                                                                                                                                  |
+| `policy.enrollment.required` | Aseta `false`, ellei käytössäsi ole Provenance-palvelinta. Oletusarvolla `true` laajennus pyytää opiskelijaa rekisteröitymään palvelimelle. Tallennus toimii samoin kummallakin arvolla, mutta ilman rekisteröintiä loki ei yksin todista, kuka sen teki.                                         |
 
 `policy`-lohkossa voi myös säätää, mitä tallennetaan (esimerkiksi päätteen käyttö ja kohdistimen liikkeet). Oletuksena kaikki on päällä. Älä lisää kenttiä `sig` ja `course_cert`; allekirjoitustyökalu lisää ne.
 
@@ -164,7 +168,14 @@ Opiskelijoille kerrottavaa:
 - Manifestia ja `.provenance/`-kansiota ei saa nimetä uudelleen, siirtää, muokata eikä poistaa.
 - Parityössä kaikki koodi kirjoitetaan yhdellä koneella, jotta loki on yhtenäinen. Kirjoittajaa voi vaihtaa, mutta konetta ei.
 
-Kokeile ennen käyttöönottoa, miten loki käyttäytyy, kun opiskelija tekee työtä kahdella eri koneella ja synkronoi niiden välillä gitillä (`git pull`). Lähteistä ei selviä, yhdistyvätkö kahden koneen lokit siististi.
+Työskentely kahdella koneella toimii. Kun `submission` on `git`, recorder sinetöi jokaisen session lokin jatkuvasti, ja jokainen sessio kirjoittaa vain omiin tiedostoihinsa, joten kahden koneen lokit eivät ole ristiriidassa. Recorder lisää myös `.provenance/.gitattributes`-tiedoston, joka estää gittiä muuttamasta rivinvaihtoja ja rikkomasta allekirjoituksia. Analyzerissa voi silti näkyä merkintöjä:
+
+- `multiple_sessions_overlap`, jos VS Code on auki kahdella koneella yhtä aikaa.
+- `inter_session_external_change`, jos toisella koneella aloitetaan vanhasta työkopiosta tai edellisen koneen muutoksia ei pushattu.
+- `external_edits`, jos `git pull` ajetaan kesken session: oman työn vetäminen näkyy ulkoisena muutoksena.
+- `extension_hash_mismatch`, jos koneilla on eri recorder-versiot.
+
+Neuvo opiskelijoita sulkemaan VS Code ensimmäisellä koneella, tekemään commitin ja pushin ja ajamaan toisella koneella `git pull` ennen kansion avaamista. Molemmilla koneilla pitää olla sama `.vsix`-paketti.
 
 ## Lokien tarkastelu
 
@@ -176,9 +187,16 @@ npm run dev --workspace=packages/analyzer
 
 Avaa selaimessa `http://localhost:5173/local/load` ja pudota sivulle zip-tiedosto. Analyzer näyttää muun muassa aikajanan, muokkausten toiston ja lokin eheystarkistuksen.
 
-Offline-tila on tehty laajennuksen tekemälle palautuspaketille. Kokeile, kelpaako sille myös opiskelijan repo zip-tiedostoksi pakattuna. Jos ei kelpaa, opiskelijat voivat lisäksi tehdä paketin komennolla **Provenance: Prepare Submission Bundle** ja lisätä sen repoon.
+Opiskelijan repo kelpaa sellaisenaan: pudota GitLabin **Download zip** -tiedosto, ylin kansio mukaan lukien. Analyzer etsii zipistä `.provenance/`-kansiot mistä tahansa syvyydestä. **Prepare Submission Bundle** -komentoa ei tarvita, koska git-palautuksessa recorder sinetöi lokin jatkuvasti.
 
-Palvelin vaatii Dockerin ja PostgreSQL:n, ja sen syötteeksi on valmiina vain Gradescopen vientitiedosto. Käyttöönotto on kuvattu repon tiedostoissa `docs/dev-setup.md` ja `docs/admin-guide.md`. Selvitä ennen kurssin alkua, voiko Analyzeria ajaa omalla palvelimella yliopiston tietosuojakäytäntöjen mukaisesti ja onko Google-kirjautuminen sallittu.
+Palvelin vaatii Dockerin ja PostgreSQL:n. Se ottaa vastaan Gradescopen vientitiedostojen lisäksi opiskelijoiden repo-zipit, yksitellen tai yhtenä zipinä, jossa on kaikkien repo-zipit. Käyttöönotto on kuvattu repon tiedostoissa `docs/dev-setup.md` ja `docs/admin-guide.md`. Selvitä ennen kurssin alkua, voiko Analyzeria ajaa omalla palvelimella yliopiston tietosuojakäytäntöjen mukaisesti ja onko Google-kirjautuminen sallittu.
+
+Palvelinta käytettäessä:
+
+- Jätä tehtävän scope-tilaksi oletus `self_identifying`. Tila `repo_whole` hylkää GitLabin zipin sen ylimmän kansion takia.
+- Opiskelija tunnistetaan tiedostonimestä lukukauden `filename_convention`-säännöllä. Nimeä zipit opiskelijatunnuksella, esimerkiksi `<tunnus>.zip`, ja käytä sääntöä `^(?<sid>[^/.]+)`. Tunnistamattomat päätyvät erilliseen listaan.
+- Määritä palvelimelle juuriavaimen julkinen osa, muuten Manifest 2.0 -tarkistukset eivät toimi täysin.
+- Kirjautuminen hyväksyy vain `AUTH_ALLOWED_HOSTED_DOMAINS`-asetuksen Google Workspace -domainit.
 
 ## Muistettavaa
 

@@ -18,8 +18,8 @@ Ohjeet:
 - [Opettajan käyttöönotto-ohje](opettajan-ohje.md)
 
 Ohjeiden muokattava alkuperäinen on Claude Docs -dokumentti; nämä ovat
-kopioita 2026-11-09 tilanteesta. Alla olevat selvitykset ovat tuoreempia kuin
-ohjeiden vastaavat kohdat.
+kopioita 2026-11-09 tilanteesta, ja niihin on päivitetty alla olevien
+selvitysten tulokset.
 
 ## Uusi VSIX jokaisen recorder-muutoksen jälkeen
 
@@ -94,15 +94,3 @@ Muut tiedostot jätetään pois.
   Google Workspace -domainit.
 - Palvelimelle on määritettävä juuriavaimen julkinen osa, muuten Manifest
   2.0 -tarkistukset eivät toimi täysin.
-
-## Korjattavaa ohjeissa
-
-- Opettajan ohjeen kohta "Lokien tarkastelu" ja avoin kysymys zip-tuesta:
-  repo-zip kelpaa (ks. yllä), "Prepare Submission Bundle" -komentoa ei
-  tarvita git-palautuksessa.
-- Opettajan ohjeen `scope`-rivi ja kahden koneen kohta: ks. selvitykset yllä.
-- Opettajan ohjeen kohta 4 (tunnisteen vaihto): `package.json`-muutoksen
-  lisäksi on päivitettävä `package-lock.json` (`npm install`), muuten
-  `npm ci` epäonnistuu.
-- Opiskelijan ohjeen kohta "Palautus": kahden koneen ohje kannattaa tarkentaa
-  yllä olevan mukaiseksi (sulje, push, pull ennen avaamista).
