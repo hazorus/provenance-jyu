@@ -186,11 +186,11 @@ Neuvo opiskelijoita sulkemaan VS Code ensimmäisellä koneella, tekemään commi
 Analyzerin offline-tila käsittelee lokit selaimessa, eikä lokien data lähde koneeltasi. Upstreamin versiossa se vaatii kirjautumisen henkilökunnan tunnuksella. JYU-haarassa Analyzerista voi rakentaa version, joka toimii omalla koneella ilman kirjautumista ja palvelinta:
 
 ```bash
-VITE_LOCAL_ONLY=true VITE_ROOT_PUBLIC_KEY_HEX=1432603d08c93282725d899dd459cb5c9b6d723fff2362945b2eb11fef921f27 npm run build --workspace=packages/analyzer
+npm run build:local --workspace=packages/analyzer
 npm run preview --workspace=packages/analyzer
 ```
 
-Avaa selaimessa `http://localhost:4173/` ja pudota sivulle zip-tiedosto. Analyzer näyttää muun muassa aikajanan, muokkausten toiston ja lokin eheystarkistuksen. `VITE_ROOT_PUBLIC_KEY_HEX` on juuriavaimen julkinen osa; ilman sitä allekirjoitusketjun tarkistus ohitetaan. Älä julkaise tätä versiota verkkoon, koska se ei tarkista, kuka sitä käyttää.
+Avaa selaimessa `http://localhost:4173/` ja pudota sivulle zip-tiedosto. Analyzer näyttää muun muassa aikajanan, muokkausten toiston ja lokin eheystarkistuksen. Skripti ottaa asetukset tiedostosta `packages/analyzer/.env.jyu-local`, jossa on myös juuriavaimen julkinen osa. Jos juuriavain vaihtuu, päivitä se sinne. Älä julkaise tätä versiota verkkoon, koska se ei tarkista, kuka sitä käyttää.
 
 Opiskelijan repo kelpaa sellaisenaan: pudota GitLabin **Download zip** -tiedosto, ylin kansio mukaan lukien. Analyzer etsii zipistä `.provenance/`-kansiot mistä tahansa syvyydestä. **Prepare Submission Bundle** -komentoa ei tarvita, koska git-palautuksessa recorder sinetöi lokin jatkuvasti.
 

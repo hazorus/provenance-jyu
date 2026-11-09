@@ -42,7 +42,7 @@ toimivan `/local`-näkymän ilman kirjautumista ja palvelinta. Lokit eivät läh
 koneelta. Rakenna ja käynnistä repon juuressa:
 
 ```bash
-VITE_LOCAL_ONLY=true VITE_ROOT_PUBLIC_KEY_HEX=1432603d08c93282725d899dd459cb5c9b6d723fff2362945b2eb11fef921f27 npm run build --workspace=packages/analyzer
+npm run build:local --workspace=packages/analyzer
 ```
 
 ```bash
@@ -50,9 +50,10 @@ npm run preview --workspace=packages/analyzer
 ```
 
 Avaa selaimessa `http://localhost:4173/` ja pudota opiskelijan repo-zip
-sivulle. `VITE_ROOT_PUBLIC_KEY_HEX` on juuriavaimen julkinen osa; ilman sitä
-Manifest 2.0 -allekirjoitusketjun tarkistus ohitetaan. Älä julkaise tätä
-versiota verkkoon: se ei tarkista, kuka sitä käyttää.
+sivulle. Skripti ottaa asetukset tiedostosta
+`packages/analyzer/.env.jyu-local`: `VITE_LOCAL_ONLY=true` ja juuriavaimen
+julkinen osa `VITE_ROOT_PUBLIC_KEY_HEX`. Jos juuriavain vaihtuu, päivitä se
+sinne. Älä julkaise tätä versiota verkkoon: se ei tarkista, kuka sitä käyttää.
 
 ## Selvitetyt avoimet kysymykset
 
