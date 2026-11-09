@@ -119,7 +119,9 @@ Luo tehtäväpohjan juureen tiedosto `.provenance-manifest`:
   "collaboration": "solo",
   "submission": "git",
   "scope": "directory",
-  "policy": { "enrollment": { "required": false } }
+  "policy": { "enrollment": { "required": false } },
+  "ignore": [],
+  "attachments": []
 }
 ```
 
@@ -134,6 +136,8 @@ Luo tehtäväpohjan juureen tiedosto `.provenance-manifest`:
 | `submission`                 | `git`, kun loki palautetaan repossa, tai `bundle`, kun opiskelija palauttaa laajennuksen tekemän zip-paketin.                                                                                                                                                                                     |
 | `scope`                      | `directory` tai `repo`. Käytä arvoa directory. Arvo tallentuu manifestiin, mutta recorder ja Analyzer eivät tällä hetkellä käytä sitä mihinkään.                                                                                                                                                  |
 | `policy.enrollment.required` | Aseta `false`, ellei käytössäsi ole Provenance-palvelinta. Oletusarvolla `true` laajennus pyytää opiskelijaa rekisteröitymään palvelimelle. Tallennus toimii samoin kummallakin arvolla, mutta ilman rekisteröintiä loki ei yksin todista, kuka sen teki.                                         |
+| `ignore`                     | Pakollinen, voi olla tyhjä lista. Polut, joita laajennus ei tallenna lainkaan: niistä ei synny tapahtumia, ei myöskään opiskelijaa puoltavia.                                                                                                                                                     |
+| `attachments`                | Pakollinen, voi olla tyhjä lista. Tiedostot, jotka sinetöidään palautukseen tiivisteineen mutta joiden muokkauksia ei seurata, esimerkiksi valmiit datatiedostot.                                                                                                                                 |
 
 `policy`-lohkossa voi myös säätää, mitä tallennetaan (esimerkiksi päätteen käyttö ja kohdistimen liikkeet). Oletuksena kaikki on päällä. Älä lisää kenttiä `sig` ja `course_cert`; allekirjoitustyökalu lisää ne.
 
