@@ -25,7 +25,7 @@ Kaikki versiot tarkistussummineen ovat
 - [Opettajan käyttöönotto-ohje](opettajan-ohje.md)
 
 Ohjeiden muokattava alkuperäinen on Claude Docs -dokumentti; nämä ovat
-kopioita 2026-11-09 tilanteesta, ja niihin on päivitetty alla olevien
+kopioita 2026-11-10 tilanteesta, ja niihin on päivitetty alla olevien
 selvitysten tulokset.
 
 ## Uusi VSIX jokaisen recorder-muutoksen jälkeen

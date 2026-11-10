@@ -1,6 +1,6 @@
 # Provenance – käyttöönotto-ohje opettajalle
 
-Oct 27, 2026 · @Tommi
+Nov 10, 2026 · @Tommi
 
 Provenance otetaan kurssilla käyttöön omalla avaimella ja omalla laajennuspaketilla. Opiskelijat palauttavat lokin git-repossa koodinsa mukana.
 
