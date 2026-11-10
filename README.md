@@ -12,6 +12,14 @@ Provenance has two halves that share one artifact:
 
 The full design lives in [`docs/prd.md`](docs/prd.md). Code conventions for working in this repo are in [`CLAUDE.md`](CLAUDE.md).
 
+## JYU (TIES4080)
+
+Tämä haara (`jyu`) on Jyväskylän yliopiston versio. Erot upstreamiin ja käyttöönoton ohjeet ovat hakemistossa [`docs/jyu/`](docs/jyu/README.md).
+
+- **Laajennus:** [provenance-recorder-jyu-it-2.0.3.vsix](https://github.com/hazorus/provenance-jyu/raw/vsix/provenance-recorder-jyu-it-2.0.3.vsix) (kaikki versiot [`vsix`-haarassa](https://github.com/hazorus/provenance-jyu/tree/vsix))
+- **Mallivideot:** [opiskelija: asennus ja käyttö (1 min 39 s)](https://github.com/hazorus/provenance-jyu/raw/videot/provenance-opiskelija.mp4) · [opettaja: manifestin luonti ja lokien tarkastelu (1 min 59 s)](https://github.com/hazorus/provenance-jyu/raw/videot/provenance-opettaja.mp4) (kaikki videot [`videot`-haarassa](https://github.com/hazorus/provenance-jyu/tree/videot))
+- **Ohjeet:** [opiskelijan ohje](docs/jyu/opiskelijan-ohje.md) · [opettajan käyttöönotto-ohje](docs/jyu/opettajan-ohje.md)
+
 ## Packages
 
 Provenance is an npm workspace of six packages. Each builds on `log-core`; none of the
