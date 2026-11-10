@@ -35,8 +35,13 @@ jokainen recorderin koodimuutos vaatii uuden paketin ja uuden tiivisteen
 allowlistiin. Rakenna paketti ja tiiviste samalla kertaa:
 
 ```bash
-npm run update-hashes -- --root-keypair ~/root-keypair.json
+PROVENANCE_ROOT_PUBLIC_KEY_HEX=1432603d08c93282725d899dd459cb5c9b6d723fff2362945b2eb11fef921f27 \
+  npm run update-hashes
 ```
+
+Rakentamiseen riittää juuriavaimen julkinen osa. Nosta ennen rakentamista
+versionumero tiedostoissa `packages/recorder/package.json` ja
+`package-lock.json`; pelkkä versionumero ei muuta tiivistettä.
 
 Jaa opiskelijoille juuri se `.vsix`, josta tiiviste laskettiin: lisää se
 `vsix`-haaraan ja päivitä latauslinkki tähän tiedostoon ja opiskelijan

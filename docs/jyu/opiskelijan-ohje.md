@@ -17,7 +17,7 @@ Kurssilla käytetään Provenancen JYU-versiota (tunniste `jyu-tjlahton.provenan
 
 ## Asennus
 
-Asennat laajennuksen JYU-version opettajan jakamasta `.vsix`-tiedostosta. **Älä asenna Provenance Recorderia VS Coden Marketplacesta.** Marketplacen versio on tehty Berkeleyn kursseille, eikä se tallenna tämän kurssin tehtäviä.
+Asennat laajennuksen JYU-version alla linkitetystä `.vsix`-tiedostosta. **Älä asenna Provenance Recorderia VS Coden Marketplacesta.** Marketplacen versio on tehty Berkeleyn kursseille, eikä se tallenna tämän kurssin tehtäviä.
 
 1. Asenna tai päivitä Visual Studio Code. Tarvitset version 1.100 tai uudemman. Version näet valikosta **Help → About** (Windows, Linux) tai **Code → About Visual Studio Code** (Mac).
 2. Lataa laajennus omalle koneellesi: [provenance-recorder-jyu-it-2.0.3.vsix](https://github.com/hazorus/provenance-jyu/raw/vsix/provenance-recorder-jyu-it-2.0.3.vsix). Uudemmat versiot löytyvät [samasta paikasta](https://github.com/hazorus/provenance-jyu/tree/vsix).
@@ -33,7 +33,7 @@ Jos opettaja julkaisee laajennuksesta uuden version, asenna se samalla tavalla. 
 
 Tallennus toimii vain, kun avaat VS Codessa nimenomaan tehtävän oman kansion.
 
-1. Pura opettajan jakama tehtäväpohja (zip) esimerkiksi kansioon `kurssi/tehtava1`. Älä pura sitä Lataukset-kansioon.
+1. Kloonaa tehtävän repo gitlab.jyu.fi:stä omalle koneellesi, esimerkiksi `git clone <repon osoite> kurssi/tehtava1`. Älä tallenna sitä Lataukset-kansioon.
 2. Avaa VS Codessa **File → Open Folder…** ja valitse **itse tehtäväkansio**, ei sen yläpuolista kansiota.
 3. Jos VS Code kysyy, luotatko kansion tekijöihin, vastaa **Yes, I trust the authors**.
 4. Tarkista VS Code -ikkunan alareunan tilariviltä, että siinä lukee **Provenance: recording**.
@@ -53,7 +53,7 @@ Loki palautuu tehtävän git-repossa koodisi mukana. Repon juuressa on kaksi Pro
 3. Tarkista kurssin git-palvelusta, että `.provenance/`-kansio näkyy repossasi.
 4. Lokia ei tarvitse palauttaa erikseen kurssin palautusjärjestelmään, koska se kulkee repossa koodisi mukana.
 
-Jos teet tehtävän parin kanssa, kirjoittakaa kaikki koodi yhdellä koneella, jotta loki on yhtenäinen. Kirjoittajaa voi vaihtaa niin usein kuin haluatte.
+Jos teet tehtävän parin kanssa, kirjoittakaa koodi yhdellä koneella kerrallaan. Kirjoittajaa voi vaihtaa niin usein kuin haluatte, ja konetta vaihdettaessa toimikaa alla olevan ohjeen mukaan.
 
 Voit tehdä tehtävää useammalla koneella, kun siirrät työn gitin kautta. Asenna sama `.vsix`-tiedosto kaikille koneille ja toimi näin:
 
@@ -68,10 +68,10 @@ Voit tehdä tehtävää useammalla koneella, kun siirrät työn gitin kautta. As
 Käy läpi nämä kohdat järjestyksessä:
 
 1. **VS Code on ajan tasalla.** Päivitä VS Code ja käynnistä se uudelleen. Avaa sitten tehtäväkansio uudelleen.
-2. **Provenance on ajan tasalla.** Tarkista, että olet asentanut opettajan jakaman uusimman \`.vsix\`-tiedoston etkä Marketplacen versiota. JYU-version julkaisija laajennusnäkymässä on jyu-tjlahton.
-3. **Oikea kansio on auki.** Yleinen virhe on purkaa zip niin, että syntyy sisäkkäiset kansiot (esimerkiksi `tehtava1/tehtava1`). Avaa sisempi kansio, jossa tehtävän tiedostot ovat.
+2. **Provenance on ajan tasalla.** Tarkista, että olet asentanut uusimman `.vsix`-tiedoston etkä Marketplacen versiota. JYU-version julkaisija laajennusnäkymässä on `jyu-tjlahton`.
+3. **Oikea kansio on auki.** Avaa kloonatun repon kansio, jonka juuressa on `.provenance-manifest`-tiedosto, eikä sen yläpuolista kansiota.
 4. **Kansioon luotetaan.** Jos ikkunan yläreunassa on harmaa palkki, jossa mainitaan Restricted Mode, valitse palkista luottamus kansioon.
-5. **Kansioon voi kirjoittaa.** Macissa Lataukset-kansioon puretut tiedostot voivat olla vain luku -tilassa. Siirrä tehtäväkansio esimerkiksi Työpöydälle tai omaan kurssikansioon.
+5. **Kansioon voi kirjoittaa.** Macissa Lataukset-kansiossa olevat tiedostot voivat olla vain luku -tilassa. Siirrä tehtäväkansio esimerkiksi Työpöydälle tai omaan kurssikansioon.
 
 Jos tallennus ei vieläkään käynnisty, ota yhteyttä opettajaan ennen kuin teet tehtävää pidemmälle.
 
@@ -87,7 +87,7 @@ Jos tallennus ei vieläkään käynnisty, ota yhteyttä opettajaan ennen kuin te
 
 **Voinko lukea oman lokini?** Kyllä. Se on tekstitiedostoina tehtäväkansion `.provenance/`-kansiossa.
 
-**Unohdin pitää tallennuksen päällä osan ajasta. Mitä teen?** Voit palauttaa tehtävän silti, jolloin opettaja saattaa ottaa sinuun yhteyttä. Vaihtoehtoisesti voit ladata tehtäväpohjan uudelleen ja tehdä tehtävän alusta tallennus päällä.
+**Unohdin pitää tallennuksen päällä osan ajasta. Mitä teen?** Voit palauttaa tehtävän silti, jolloin opettaja saattaa ottaa sinuun yhteyttä. Vaihtoehtoisesti voit kloonata tehtäväpohjan uudelleen ja tehdä tehtävän alusta tallennus päällä.
 
 ## Lähteet
 

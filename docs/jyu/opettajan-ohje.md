@@ -4,7 +4,7 @@ Oct 27, 2026 · @Tommi
 
 Provenance otetaan kurssilla käyttöön omalla avaimella ja omalla laajennuspaketilla. Opiskelijat palauttavat lokin git-repossa koodinsa mukana.
 
-Työ jakautuu kahteen osaan:
+Työ jakautuu kolmeen osaan:
 
 - **Kerran (tai kun juuriavain vaihtuu):** juuriavaimen luonti ja oman `.vsix`-paketin kääntäminen.
 - **Kerran kurssille ja lukukaudelle:** kurssiavaimen luonti ja sille juuriavaimella allekirjoitettu kurssisertifikaatti.
@@ -33,7 +33,7 @@ npm run build
 npm run keygen:course -- ~/root-keypair.json
 ```
 
-Juuriavain on järjestelmän arvokkain salaisuus: sillä voi valtuuttaa minkä tahansa kurssiavaimen. Tee siitä varmuuskopio ja siirrä se pois työkoneelta, kun laajennus on käännetty. Tarvitset yksityistä osaa vain uuden kurssisertifikaatin allekirjoittamiseen. Julkinen osa tulostuu näytölle; kirjoita se talteen.
+Juuriavain on järjestelmän arvokkain salaisuus: sillä voi valtuuttaa minkä tahansa kurssiavaimen. Tee siitä varmuuskopio ja siirrä se pois työkoneelta, kun laajennus on käännetty. Tarvitset yksityistä osaa vain uuden kurssisertifikaatin allekirjoittamiseen. Julkinen osa tulostuu näytölle; kirjoita se talteen. JYU:n juuriavain on jo luotu, ja sen julkinen osa on 1432603d08c93282725d899dd459cb5c9b6d723fff2362945b2eb11fef921f27. Tätä vaihetta ei tarvitse toistaa.
 
 ### 3. Luo kurssiavain ja kurssisertifikaatti (kerran kurssille ja lukukaudelle)
 
@@ -67,13 +67,16 @@ JYU-haarassa laajennuksen tunniste on jo `jyu-tjlahton.provenance-recorder-jyu-i
 
 ### 5. Käännä oma VSIX-paketti (kerran)
 
+Nosta ennen rakentamista versionumero (`version`) tiedostossa `packages/recorder/package.json` ja samaan kohtaan tiedostossa `package-lock.json`, jotta opiskelijat erottavat uuden paketin vanhasta. Pelkkä versionumero ei muuta tiivistettä.
+
 ```bash
-npm run update-hashes -- --root-keypair ~/root-keypair.json
+PROVENANCE_ROOT_PUBLIC_KEY_HEX=1432603d08c93282725d899dd459cb5c9b6d723fff2362945b2eb11fef921f27 \
+  npm run update-hashes
 ```
 
 Komento tekee kaksi asiaa kerralla:
 
-- Se kääntää tuotantoversion, johon juuriavaimen julkinen osa on upotettu, ja tallentaa paketin kansioon `packages/recorder/` (esimerkiksi `provenance-recorder-jyu-it-2.0.2.vsix`).
+- Se kääntää tuotantoversion, johon juuriavaimen julkinen osa on upotettu, ja tallentaa paketin kansioon `packages/recorder/` (esimerkiksi `provenance-recorder-jyu-it-2.0.3.vsix`).
 - Se lisää paketin tiivisteen Analyzerin hyväksyttyjen versioiden listaan. Ilman tätä Analyzer merkitsee palautukset epäilyttäviksi.
 
 Ilmoitus `PROVENANCE_LEGACY_COURSE_PUBLIC_KEY_HEX is not set` on odotettu: paketti hyväksyy vain Manifest 2.0 -manifestit, eli juuri ne, joita tämä ohje tuottaa.
@@ -86,7 +89,7 @@ Valmis paketti on ladattavissa: [provenance-recorder-jyu-it-2.0.3.vsix](https://
 
 ### 6. Tallenna muutokset jyu-haaraan
 
-Tallenna omat muutoksesi, esimerkiksi uusi tiiviste `update-hashes`-ajon jälkeen, `jyu`-haaraan ja pushaa ne. Näin kaikki kurssin opettajat käyttävät samaa versiota. `.vsix`-tiedosto ei tallennu repoon, joten jaa se opiskelijoille erikseen.
+Tallenna omat muutoksesi, esimerkiksi uusi tiiviste `update-hashes`-ajon jälkeen, `jyu`-haaraan ja pushaa ne. Näin kaikki kurssin opettajat käyttävät samaa versiota. `.vsix`-tiedosto ei tallennu jyu-haaraan, vaan opiskelijoille jaettavat paketit lisätään erilliseen vsix-haaraan (ohje alla).
 
 ```bash
 git add packages/analysis-core/src/heuristics/config/known-good-extension-hashes.json
@@ -100,6 +103,26 @@ Berkeleyn uudemman version saat yhdistämällä sen `jyu`-haaraan. Rakenna paket
 git fetch https://github.com/ProvenanceTools/provenance.git main
 git merge FETCH_HEAD
 ```
+
+Uusi paketti julkaistaan opiskelijoille lisäämällä se `vsix`-haaraan. Haaralla ei ole yhteistä historiaa `jyu`-haaran kanssa, joten sitä käsitellään erillisessä työkansiossa. Esimerkissä uusi versio on 2.0.4:
+
+```bash
+git fetch origin vsix
+git worktree add ../provenance-vsix vsix
+cp packages/recorder/provenance-recorder-jyu-it-2.0.4.vsix ../provenance-vsix/
+sha256sum ../provenance-vsix/provenance-recorder-jyu-it-2.0.4.vsix
+```
+
+Lisää paketti tarkistussummineen haaran `README.md`-tiedoston taulukkoon ja tallenna:
+
+```bash
+cd ../provenance-vsix
+git add -f provenance-recorder-jyu-it-2.0.4.vsix README.md
+git commit -m "VSIX: provenance-recorder-jyu-it 2.0.4"
+git push
+```
+
+Päivitä lopuksi latauslinkki opiskelijan ohjeeseen ja `jyu`-haaran tiedostoon `docs/jyu/README.md`. Vanhat paketit jäävät haaraan, joten aiemmat linkit toimivat edelleen.
 
 ## Jokaiselle tehtävälle
 
@@ -181,7 +204,7 @@ Tehtäväpohjaa valmistellessa:
 Opiskelijoille kerrottavaa:
 
 - Manifestia ja `.provenance/`-kansiota ei saa nimetä uudelleen, siirtää, muokata eikä poistaa.
-- Parityössä kaikki koodi kirjoitetaan yhdellä koneella, jotta loki on yhtenäinen. Kirjoittajaa voi vaihtaa, mutta konetta ei.
+- Parityössä koodi kirjoitetaan yhdellä koneella kerrallaan. Jos konetta vaihdetaan, noudatetaan alla olevaa kahden koneen ohjetta.
 
 Työskentely kahdella koneella toimii. Kun `submission` on `git`, recorder sinetöi jokaisen session lokin jatkuvasti, ja jokainen sessio kirjoittaa vain omiin tiedostoihinsa, joten kahden koneen lokit eivät ole ristiriidassa. Recorder lisää myös `.provenance/.gitattributes`-tiedoston, joka estää gittiä muuttamasta rivinvaihtoja ja rikkomasta allekirjoituksia. Analyzerissa voi silti näkyä merkintöjä:
 
@@ -230,6 +253,7 @@ Palvelinta käytettäessä:
 
 ## Lähteet
 
+- [Provenance, JYU-versio, GitHub](https://github.com/hazorus/provenance-jyu/tree/jyu)
 - [ProvenanceTools/provenance, GitHub](https://github.com/ProvenanceTools/provenance)
 - [Project 1, CS 61C, UC Berkeley](https://cs61c.org/fa26/projects/proj1/)
 - [Lab 0: Getting Started, CS 61A, UC Berkeley](https://cs61a.org/fa26/labs/lab00/)
