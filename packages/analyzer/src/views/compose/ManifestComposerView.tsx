@@ -302,9 +302,13 @@ export function ManifestComposerView() {
 
   // The blob URL carries the MANIFEST, which is public by construction — it is
   // the file handed to every student in the class.
+  //
+  // octet-stream, not application/json: Chromium appends the extension of a
+  // known MIME type to an extensionless download name, so a JSON blob saved as
+  // `provenance-manifest.json` — a name the recorder does not look for.
   const downloadHref = useMemo(() => {
     if (result === null) return null;
-    return URL.createObjectURL(new Blob([result.fileText], { type: 'application/json' }));
+    return URL.createObjectURL(new Blob([result.fileText], { type: 'application/octet-stream' }));
   }, [result]);
 
   return (

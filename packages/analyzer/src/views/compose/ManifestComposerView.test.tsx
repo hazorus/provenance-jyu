@@ -159,6 +159,25 @@ describe('ManifestComposerView', () => {
     expect(screen.getByTestId('composer-file-text')).toBeTruthy();
   });
 
+  it('serves the download as a type the browser maps to no file extension', async () => {
+    // Chromium appends the extension of a known MIME type to a download whose
+    // name has none: an application/json blob named `provenance-manifest`
+    // saved as `provenance-manifest.json`, a name the recorder does not look
+    // for (MANIFEST_FILE_NAMES). octet-stream has no extension to append.
+    const blobs: Blob[] = [];
+    (URL as unknown as { createObjectURL: unknown }).createObjectURL = (blob: Blob) => {
+      blobs.push(blob);
+      return 'blob:stub';
+    };
+    render(<ManifestComposerView />);
+    await fillValidV2Form();
+    fireEvent.click(screen.getByTestId('composer-sign'));
+    await screen.findByTestId('composer-download');
+
+    expect(blobs).toHaveLength(1);
+    expect(blobs[0]!.type).toBe('application/octet-stream');
+  });
+
   it('refuses, and offers no download, when the root key does not match the certificate', async () => {
     const { course, cert } = await fixtures();
     const wrongRoot = await makeKeypair(0x77);
