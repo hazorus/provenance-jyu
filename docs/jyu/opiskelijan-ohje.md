@@ -15,6 +15,8 @@ Oman aiemmin kirjoittamasi koodin kopioiminen ja liittäminen on täysin normaal
 
 Kurssilla käytetään Provenancen JYU-versiota (tunniste `jyu-tjlahton.provenance-recorder-jyu-it`). Se perustuu UC Berkeleyn avoimeen lähdekoodiin, ja sen lähdekoodi on luettavissa [GitHubissa](https://github.com/hazorus/provenance-jyu/tree/jyu).
 
+**Mallivideo:** [Provenancen asennus ja käyttö (1 min 39 s)](https://github.com/hazorus/provenance-jyu/raw/videot/provenance-opiskelija.mp4) näyttää alla olevat vaiheet asennuksesta palautukseen.
+
 ## Asennus
 
 Asennat laajennuksen JYU-version alla linkitetystä `.vsix`-tiedostosta. **Älä asenna Provenance Recorderia VS Coden Marketplacesta.** Marketplacen versio on tehty Berkeleyn kursseille, eikä se tallenna tämän kurssin tehtäviä.

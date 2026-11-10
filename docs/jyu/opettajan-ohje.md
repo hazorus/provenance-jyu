@@ -14,6 +14,8 @@ Avainketju on kolmiportainen (Manifest 2.0): laajennukseen on upotettu juuriavai
 
 Komennot ajetaan [JYU:n Provenance-repon](https://github.com/hazorus/provenance-jyu) `jyu`-haaran juuressa. Haara sisältää Berkeleyn version ja JYU:n muutokset: oman laajennustunnisteen, tunnistekorjauksen ja tiivistelistan. Tarvitset Node.js:n version 22 tai uudemman ja npm:n version 10 tai uudemman. Komennot on kirjoitettu bash-muodossa, eli Windowsissa ympäristömuuttujat asetetaan eri tavalla tai komennot ajetaan WSL:ssä.
 
+**Mallivideot:** [opettajan työkalut (1 min 59 s)](https://github.com/hazorus/provenance-jyu/raw/videot/provenance-opettaja.mp4) näyttää manifestin luonnin selaimessa ja palautuksen tarkastelun Analyzerissa. [Opiskelijan video (1 min 39 s)](https://github.com/hazorus/provenance-jyu/raw/videot/provenance-opiskelija.mp4) näyttää, miten laajennus asennetaan ja miten tallennus näkyy VS Codessa. Kaikki videot: [`videot`-haara](https://github.com/hazorus/provenance-jyu/tree/videot).
+
 ## Avaimet, sertifikaatti ja laajennus
 
 ### 1. Hae ja käännä repo

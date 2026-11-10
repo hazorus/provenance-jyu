@@ -19,6 +19,14 @@ Tämä hakemisto kuvaa JYU:n käyttöönoton. Haara `jyu` eroaa upstreamista
 Kaikki versiot tarkistussummineen ovat
 [`vsix`-haarassa](https://github.com/hazorus/provenance-jyu/tree/vsix).
 
+## Mallivideot
+
+- [Opiskelija: asennus ja käyttö (1 min 39 s)](https://github.com/hazorus/provenance-jyu/raw/videot/provenance-opiskelija.mp4)
+- [Opettaja: manifestin luonti ja lokien tarkastelu (1 min 59 s)](https://github.com/hazorus/provenance-jyu/raw/videot/provenance-opettaja.mp4)
+
+Kaikki videot tarkistussummineen ovat
+[`videot`-haarassa](https://github.com/hazorus/provenance-jyu/tree/videot).
+
 ## Ohjeet
 
 - [Opiskelijan ohje](opiskelijan-ohje.md)
