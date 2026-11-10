@@ -226,7 +226,15 @@ npm run build:local --workspace=packages/analyzer
 npm run preview --workspace=packages/analyzer
 ```
 
-Avaa selaimessa `http://localhost:4173/` ja pudota sivulle zip-tiedosto. Analyzer näyttää muun muassa aikajanan, muokkausten toiston ja lokin eheystarkistuksen. Skripti ottaa asetukset tiedostosta `packages/analyzer/.env.jyu-local`, jossa on myös juuriavaimen julkinen osa. Jos juuriavain vaihtuu, päivitä se sinne. Älä julkaise tätä versiota verkkoon, koska se ei tarkista, kuka sitä käyttää.
+Avaa selaimessa `http://localhost:4173/` ja pudota sivulle zip-tiedosto. Analyzer näyttää muun muassa aikajanan, muokkausten toiston ja lokin eheystarkistuksen. Skripti ottaa asetukset tiedostosta `packages/analyzer/.env.jyu-local`, jossa on myös juuriavaimen julkinen osa. Jos juuriavain vaihtuu, päivitä se sinne. Versio toimii myös mistä tahansa web-palvelimen kansiosta (ks. alla).
+
+Apachessa tai muulla web-palvelimella kopioi rakennuksen tulos mihin tahansa kansioon, esimerkiksi käyttäjäkansioon, ja avaa kansion osoite selaimessa:
+
+```bash
+cp -r packages/analyzer/dist/. ~/public_html/provenance/
+```
+
+Uudelleenohjaussääntöjä tai `.htaccess`-tiedostoa ei tarvita, koska näkymät ovat osoitteen #-osassa (esimerkiksi `…/provenance/#/local/load`). Palvelin vain jakaa tiedostot; lokit käsitellään selaimessa eivätkä ne lähde koneelta. Versio ei kysy kirjautumista, joten jos kansio näkyy internetiin, kuka tahansa voi käyttää sitä omien tiedostojensa tarkasteluun. Rajaa pääsy tarvittaessa Apachen pääsynhallinnalla (esimerkiksi `Require ip` tai yliopiston kirjautuminen).
 
 Opiskelijan repo kelpaa sellaisenaan: pudota GitLabin **Download zip** -tiedosto, ylin kansio mukaan lukien. Analyzer etsii zipistä `.provenance/`-kansiot mistä tahansa syvyydestä. **Prepare Submission Bundle** -komentoa ei tarvita, koska git-palautuksessa recorder sinetöi lokin jatkuvasti.
 

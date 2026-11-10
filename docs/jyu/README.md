@@ -75,7 +75,23 @@ Avaa selaimessa `http://localhost:4173/` ja pudota opiskelijan repo-zip
 sivulle. Skripti ottaa asetukset tiedostosta
 `packages/analyzer/.env.jyu-local`: `VITE_LOCAL_ONLY=true` ja juuriavaimen
 julkinen osa `VITE_ROOT_PUBLIC_KEY_HEX`. Jos juuriavain vaihtuu, päivitä se
-sinne. Älä julkaise tätä versiota verkkoon: se ei tarkista, kuka sitä käyttää.
+sinne.
+
+Versio toimii myös mistä tahansa web-palvelimen kansiosta, esimerkiksi Apachen
+käyttäjäkansiosta. Kopioi rakennuksen tulos kansioon ja avaa kansion osoite
+selaimessa:
+
+```bash
+cp -r packages/analyzer/dist/. ~/public_html/provenance/
+```
+
+Uudelleenohjaussääntöjä tai `.htaccess`-tiedostoa ei tarvita, koska näkymät
+ovat osoitteen #-osassa (esimerkiksi `…/provenance/#/local/load`). Palvelin vain
+jakaa tiedostot; lokit käsitellään selaimessa eivätkä ne lähde koneelta.
+
+Versio ei kysy kirjautumista. Jos kansio näkyy internetiin, kuka tahansa voi
+käyttää sitä omien tiedostojensa tarkasteluun. Rajaa pääsy tarvittaessa Apachen
+pääsynhallinnalla (esimerkiksi `Require ip` tai yliopiston kirjautuminen).
 
 Sama versio sisältää välilehden **Compose manifest**, jolla tehtävän
 manifestin voi luoda ja allekirjoittaa selaimessa. Kurssiavain valitaan

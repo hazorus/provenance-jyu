@@ -8,7 +8,7 @@ import { visualizer } from 'rollup-plugin-visualizer';
 // Default matches packages/server's PORT default of 3000 (config/env.ts).
 const API_PROXY_TARGET = process.env.VITE_API_PROXY_TARGET ?? 'http://localhost:3000';
 
-export default defineConfig({
+export default defineConfig(({ mode }) => ({
   plugins: [
     react(),
     // Bundle analysis: emits dist/.report.html ONLY when ANALYZE=1 is set.
@@ -33,7 +33,12 @@ export default defineConfig({
   // makes the browser resolve `./assets/*` against the deep path, the SPA
   // fallback returns index.html for that miss, and the app renders a blank
   // page. The SPA is served from the domain root, so `/` is correct.
-  base: '/',
+  //
+  // The exception is `build:local` (mode jyu-local, a VITE_LOCAL_ONLY build):
+  // it routes by URL hash (src/AppRouter.tsx), so the path never deepens and a
+  // relative base is what lets the static files run from any folder of any
+  // web server, e.g. an Apache user directory, with no rewrite rules.
+  base: mode === 'jyu-local' ? './' : '/',
   server: {
     // The proxy is the same-origin trick that keeps __Host- session cookies
     // working in dev: the browser only ever sees the Vite dev origin, the
@@ -82,4 +87,4 @@ export default defineConfig({
       },
     },
   },
-});
+}));
