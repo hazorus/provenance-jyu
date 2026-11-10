@@ -124,7 +124,7 @@ git commit -m "VSIX: provenance-recorder-jyu-it 2.0.4"
 git push
 ```
 
-Päivitä lopuksi latauslinkki opiskelijan ohjeeseen ja `jyu`-haaran tiedostoon `docs/jyu/README.md`. Vanhat paketit jäävät haaraan, joten aiemmat linkit toimivat edelleen.
+Päivitä lopuksi latauslinkki opiskelijan ohjeeseen ja `jyu`-haaran tiedostoon `docs/jyu/README.md`. Vanhat paketit jäävät haaraan, joten aiemmat linkit toimivat edelleen. Rakenna samalla uusi provenance-analyzer.zip analyzer-haaraan, jotta valmis Analyzer tuntee uuden paketin tiivisteen.
 
 ## Jokaiselle tehtävälle
 
@@ -235,6 +235,8 @@ cp -r packages/analyzer/dist/. ~/public_html/provenance/
 ```
 
 Uudelleenohjaussääntöjä tai `.htaccess`-tiedostoa ei tarvita, koska näkymät ovat osoitteen #-osassa (esimerkiksi `…/provenance/#/local/load`). Palvelin vain jakaa tiedostot; lokit käsitellään selaimessa eivätkä ne lähde koneelta. Versio ei kysy kirjautumista, joten jos kansio näkyy internetiin, kuka tahansa voi käyttää sitä omien tiedostojensa tarkasteluun. Rajaa pääsy tarvittaessa Apachen pääsynhallinnalla (esimerkiksi `Require ip` tai yliopiston kirjautuminen).
+
+Valmiiksi rakennettu versio on ladattavissa: [provenance-analyzer.zip](https://github.com/hazorus/provenance-jyu/raw/analyzer/provenance-analyzer.zip) ([`analyzer`-haara](https://github.com/hazorus/provenance-jyu/tree/analyzer)). Pura se web-palvelimen kansioon, esimerkiksi `unzip provenance-analyzer.zip -d ~/public_html/`, ja avaa kansion `provenance-analyzer/` osoite. Node.js:ää ei tarvita.
 
 Opiskelijan repo kelpaa sellaisenaan: pudota GitLabin **Download zip** -tiedosto, ylin kansio mukaan lukien. Analyzer etsii zipistä `.provenance/`-kansiot mistä tahansa syvyydestä. **Prepare Submission Bundle** -komentoa ei tarvita, koska git-palautuksessa recorder sinetöi lokin jatkuvasti.
 

@@ -17,6 +17,7 @@ The full design lives in [`docs/prd.md`](docs/prd.md). Code conventions for work
 Tämä haara (`jyu`) on Jyväskylän yliopiston versio. Erot upstreamiin ja käyttöönoton ohjeet ovat hakemistossa [`docs/jyu/`](docs/jyu/README.md).
 
 - **Laajennus:** [provenance-recorder-jyu-it-2.0.3.vsix](https://github.com/hazorus/provenance-jyu/raw/vsix/provenance-recorder-jyu-it-2.0.3.vsix) (kaikki versiot [`vsix`-haarassa](https://github.com/hazorus/provenance-jyu/tree/vsix))
+- **Analyzer:** [provenance-analyzer.zip](https://github.com/hazorus/provenance-jyu/raw/analyzer/provenance-analyzer.zip) – valmis selainversio, joka toimii mistä tahansa web-palvelimen kansiosta ilman Node.js:ää (ohje [`analyzer`-haarassa](https://github.com/hazorus/provenance-jyu/tree/analyzer))
 - **Mallivideot:** [opiskelija: asennus ja käyttö (1 min 39 s)](https://github.com/hazorus/provenance-jyu/raw/videot/provenance-opiskelija.mp4) · [opettaja: manifestin luonti ja lokien tarkastelu (1 min 59 s)](https://github.com/hazorus/provenance-jyu/raw/videot/provenance-opettaja.mp4) (kaikki videot [`videot`-haarassa](https://github.com/hazorus/provenance-jyu/tree/videot))
 - **Ohjeet:** [opiskelijan ohje](docs/jyu/opiskelijan-ohje.md) · [opettajan käyttöönotto-ohje](docs/jyu/opettajan-ohje.md)
 

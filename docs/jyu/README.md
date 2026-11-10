@@ -89,6 +89,10 @@ Uudelleenohjaussääntöjä tai `.htaccess`-tiedostoa ei tarvita, koska näkymä
 ovat osoitteen #-osassa (esimerkiksi `…/provenance/#/local/load`). Palvelin vain
 jakaa tiedostot; lokit käsitellään selaimessa eivätkä ne lähde koneelta.
 
+Valmiiksi rakennettu versio: [provenance-analyzer.zip](https://github.com/hazorus/provenance-jyu/raw/analyzer/provenance-analyzer.zip)
+([`analyzer`-haara](https://github.com/hazorus/provenance-jyu/tree/analyzer)). Pura se web-palvelimen kansioon ja avaa
+kansion `provenance-analyzer/` osoite; Node.js:ää ei tarvita.
+
 Versio ei kysy kirjautumista. Jos kansio näkyy internetiin, kuka tahansa voi
 käyttää sitä omien tiedostojensa tarkasteluun. Rajaa pääsy tarvittaessa Apachen
 pääsynhallinnalla (esimerkiksi `Require ip` tai yliopiston kirjautuminen).
