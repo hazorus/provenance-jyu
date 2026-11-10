@@ -64,6 +64,11 @@ sivulle. Skripti ottaa asetukset tiedostosta
 julkinen osa `VITE_ROOT_PUBLIC_KEY_HEX`. Jos juuriavain vaihtuu, päivitä se
 sinne. Älä julkaise tätä versiota verkkoon: se ei tarkista, kuka sitä käyttää.
 
+Sama versio sisältää välilehden **Compose manifest**, jolla tehtävän
+manifestin voi luoda ja allekirjoittaa selaimessa. Kurssiavain valitaan
+tiedostona, luetaan vain allekirjoituksen ajaksi eikä lähde koneelta. Tulos on
+tavu tavulta sama kuin `npm run sign:manifest` -komennon.
+
 ## Selvitetyt avoimet kysymykset
 
 ### `scope: "repo"` vai `"directory"`?

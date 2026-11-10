@@ -233,4 +233,47 @@ describe('App routing — local-only build (VITE_LOCAL_ONLY=true)', () => {
     }
     expect(requested).toEqual([]);
   });
+
+  it('renders the manifest composer at /compose/manifest with no sign-in and no API request', async () => {
+    mswServer.use(meUnauthorizedHandler());
+    const requested: string[] = [];
+    const onRequest = ({ request }: { request: Request }) => {
+      requested.push(request.url);
+    };
+    mswServer.events.on('request:start', onRequest);
+    try {
+      renderApp('/compose/manifest');
+      await waitFor(() => {
+        expect(
+          screen.getByRole('heading', { level: 1, name: /manifest composer/i }),
+        ).toBeInTheDocument();
+      });
+    } finally {
+      mswServer.events.removeListener('request:start', onRequest);
+    }
+    expect(requested).toEqual([]);
+    expect(screen.queryByRole('button', { name: /sign in with google/i })).not.toBeInTheDocument();
+    expect(screen.getByTestId('local-only-nav')).toBeInTheDocument();
+  });
+
+  it('links /local/load and the composer to each other', async () => {
+    renderApp('/local/load');
+    await waitFor(() => {
+      expect(screen.getByTestId('drop-zone')).toBeInTheDocument();
+    });
+    expect(screen.getByRole('link', { name: /compose manifest/i })).toHaveAttribute(
+      'href',
+      '/compose/manifest',
+    );
+    fireEvent.click(screen.getByRole('link', { name: /compose manifest/i }));
+    await waitFor(() => {
+      expect(
+        screen.getByRole('heading', { level: 1, name: /manifest composer/i }),
+      ).toBeInTheDocument();
+    });
+    expect(screen.getByRole('link', { name: /analyze bundles/i })).toHaveAttribute(
+      'href',
+      '/local',
+    );
+  });
 });

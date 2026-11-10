@@ -33,8 +33,9 @@
  * <QueryClientProvider> is set up in main.tsx and wraps the entire app.
  *
  * Local-only build (`VITE_LOCAL_ONLY=true`, see lib/local-only.ts): the same
- * /local subtree and legacy redirects, but NOT wrapped in RequireAuth +
- * RequireStaff, and every other path redirects to /local/load. No server route
+ * /local subtree, legacy redirects and /compose/manifest, but NOT wrapped in
+ * RequireAuth + RequireStaff (the composer without AppShell, which needs the
+ * server), and every other path redirects to /local/load. No server route
  * exists in that build, so nothing in it calls the API.
  */
 
@@ -49,6 +50,7 @@ import { RequireSuperadmin } from './auth/RequireSuperadmin.js';
 import { RequireStaff } from './auth/RequireStaff.js';
 import { LandingView } from './views/landing/LandingView.js';
 import {
+  LocalOnlyComposerShell,
   LocalShell,
   RequireLocalBundle,
   RequireLocalMultiBundles,
@@ -243,7 +245,8 @@ function legacyLocalRedirects() {
 }
 
 /**
- * Route tree of a `VITE_LOCAL_ONLY=true` build: /local without the staff gate,
+ * Route tree of a `VITE_LOCAL_ONLY=true` build: /local and the manifest
+ * composer, both without the staff gate (both run entirely in the browser),
  * and nothing else — every other path lands on /local/load.
  */
 function LocalOnlyRoutes() {
@@ -253,6 +256,14 @@ function LocalOnlyRoutes() {
         <Route path="/local" element={<LocalShell />}>
           {localChildRoutes()}
         </Route>
+        <Route
+          path="/compose/manifest"
+          element={
+            <LocalOnlyComposerShell>
+              <ManifestComposerView />
+            </LocalOnlyComposerShell>
+          }
+        />
         {legacyLocalRedirects()}
         <Route path="*" element={<Navigate to="/local/load" replace />} />
       </Routes>

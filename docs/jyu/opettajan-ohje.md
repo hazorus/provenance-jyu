@@ -154,6 +154,8 @@ Työkalu allekirjoittaa manifestin kurssiavaimella, liittää siihen kurssiserti
 
 `PROVENANCE_ROOT_PUBLIC_KEY_HEX` on juuriavaimen julkinen osa, jolla työkalu tarkistaa ketjun. Ilman sitä työkalu etsii kehitysavainta tiedostosta `.notes/dev-root-keypair.json` ja keskeytyy.
 
+Manifestin voi luoda ja allekirjoittaa myös selaimessa. Rakenna Analyzerin local-only-versio (`npm run build:local --workspace=packages/analyzer`, ks. Lokien tarkastelu), käynnistä se ja avaa välilehti **Compose manifest**. Täytä kentät, valitse kurssisertifikaatti ja kurssiavaimen tiedosto ja paina **Sign and verify**. Avain luetaan vain allekirjoituksen ajaksi eikä se lähde koneelta. Tulos on tavu tavulta sama kuin komentorivityökalun. Ladattu tiedosto on nimeltään `provenance-manifest`; laajennus hyväksyy sen sellaisenaan, tai sen voi nimetä muotoon `.provenance-manifest`.
+
 ### 3. Kokeile ennen julkaisua
 
 Avaa tehtäväpohja VS Codessa, johon on asennettu oma `.vsix`-pakettisi. Tilarivillä pitää lukea **Provenance: recording**. Jos ei lue, tarkista, että kurssisertifikaatti on allekirjoitettu samalla juuriavaimella, joka on upotettu pakettiin, ja ettei sertifikaatin voimassaolo ole päättynyt.
